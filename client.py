@@ -51,7 +51,6 @@ def download_file(url,timeout = 0):
 		if(timeout == 0):
 			return
 
-send_tor_circuit_ips(ips)
 controller = get_tor_controller()
 
 # Reroute traffic through tor
