@@ -13,13 +13,14 @@ from torutils import *
 SOCKS_PORT = 9050
 CONTROL_PORT = 9051
 FILE_URL = "https://landsat-pds.s3.amazonaws.com/L8/139/045/LC81390452014295LGN00/LC81390452014295LGN00_B8.TIF"
-ANALYSIS_MACHINE_IP = "129.22.150.52"
-ANALYSIS_MACHINE_PORT = 44106
 
 def send_tor_circuit_ips(ips):
 	print "Sending ips for analysis"
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect((ANALYSIS_MACHINE_IP, ANALYSIS_MACHINE_PORT))
+	s.connect(('129.22.150.52', 18089))
+	s.send('hello')
+
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	print "connected!"
 	for index, ip in enumerate(ips):
 		s.send(ip)
@@ -51,6 +52,8 @@ def download_file(url,timeout = 0):
 		if(timeout == 0):
 			return
 
+send_tor_circuit_ips(["123,456"])
+'''
 controller = get_tor_controller()
 
 # Reroute traffic through tor
@@ -71,3 +74,4 @@ while True:
 		controller.remove_event_listener(callback)
 		controller.reset_conf('__LeaveStreamsUnattached')
 controller.close()
+'''

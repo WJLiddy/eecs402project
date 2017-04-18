@@ -13,22 +13,22 @@ from torutils import *
 SOCKS_PORT = 9050
 CONTROL_PORT = 9051
 DEBUG = True
-ANALYSIS_MACHINE_PORT = 44106
-CLIENT_MACHINE_IP = "localhost"
+CLIENT_MACHINE_IP = '192.22.150.122'
 
 def recv_tor_circuit_ips():
 	print "waiting to recieve..."
 	BUFFER_SIZE = 1024
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.bind((s.gethostname(), ANALYSIS_MACHINE_PORT))
+	s.bind(('localhost', 18089))
+	s.listen(5)
 	while True:
 		print "listening...."
-		s.listen(1)
 		conn, addr = s.accept()
 		print 'Connection address:', addr
 		if(addr != CLIENT_MACHINE_IP):
 			conn.close()
 			continue
+		while data
 		data = conn.recv(BUFFER_SIZE)
 		print "received data:", data
 		conn.close()
