@@ -22,6 +22,7 @@ def recv_tor_circuit_ips():
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind(("localhost", ANALYSIS_MACHINE_PORT))
 	while True:
+		print "listening...."
 		s.listen(1)
 		conn, addr = s.accept()
 		print 'Connection address:', addr

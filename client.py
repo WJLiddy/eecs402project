@@ -20,6 +20,7 @@ def send_tor_circuit_ips(ips):
 	print "Sending ips for analysis"
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.connect((ANALYSIS_MACHINE_IP, ANALYSIS_MACHINE_PORT))
+	print "connected!"
 	for index, ip in enumerate(ips):
 		s.send(ip)
 		if(index != len(ip) - 1):
@@ -50,6 +51,7 @@ def download_file(url,timeout = 0):
 		if(timeout == 0):
 			return
 
+send_tor_circuit_ips(ips)
 controller = get_tor_controller()
 
 # Reroute traffic through tor
