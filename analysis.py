@@ -20,7 +20,7 @@ def recv_tor_circuit_ips():
 	print "waiting to recieve..."
 	BUFFER_SIZE = 1024
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.bind(("localhost", ANALYSIS_MACHINE_PORT))
+	s.bind((s.gethostname(), ANALYSIS_MACHINE_PORT))
 	while True:
 		print "listening...."
 		s.listen(1)
