@@ -52,8 +52,6 @@ def download_file(url,timeout = 0):
 		if(timeout == 0):
 			return
 
-send_tor_circuit_ips(["123,456"])
-'''
 controller = get_tor_controller()
 
 # Reroute traffic through tor
@@ -74,4 +72,3 @@ while True:
 		controller.remove_event_listener(callback)
 		controller.reset_conf('__LeaveStreamsUnattached')
 controller.close()
-'''
