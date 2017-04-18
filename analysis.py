@@ -28,7 +28,6 @@ def recv_tor_circuit_ips():
 		if(addr != CLIENT_MACHINE_IP):
 			conn.close()
 			continue
-		while data
 		data = conn.recv(BUFFER_SIZE)
 		print "received data:", data
 		conn.close()
