@@ -20,7 +20,7 @@ def recv_tor_circuit_ips():
 	print "waiting to recieve..."
 	BUFFER_SIZE = 1024
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.bind((LOCALHOST, ANALYSIS_MACHINE_PORT))
+	s.bind(("localhost", ANALYSIS_MACHINE_PORT))
 	while True:
 		s.listen(1)
 		conn, addr = s.accept()
@@ -28,33 +28,30 @@ def recv_tor_circuit_ips():
 		if(addr != CLIENT_MACHINE_IP):
 			conn.close()
 			continue
-		while 1:
-			data = conn.recv(BUFFER_SIZE)
-			if not data: 
-				break
+		data = conn.recv(BUFFER_SIZE)
 		print "received data:", data
 		conn.close()
 		return data.split(',')
 
 
-controller = get_tor_controller()
+#controller = get_tor_controller()
 
 # Reroute traffic through tor
 # socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_SOCKS5, addr="127.0.0.1", port=9050)
 # socket.socket = socks.socksocket
 
 while True:
-	ips = recv_tor_circuit_ips
+	ips = recv_tor_circuit_ips()
 	callback = None
-	try:
-		ips, callback = set_circuit(controller)
-		print ips
-		send_tor_circuit_ips(ips)
-		print "trying to download.."
-		download_file(FILE_URL,1)
-		print "done!"
-	finally:
-		# Stop listening for attach stream events and stop controlling streams
-		controller.remove_event_listener(callback)
-	 	controller.reset_conf('__LeaveStreamsUnattached')
-	controller.close()
+	#ry:
+	#ips, callback = set_circuit(controller)
+	#print ips
+	#send_tor_circuit_ips(ips)
+	#print "trying to download.."
+	#download_file(FILE_URL,1)
+	#print "done!"
+	#finally:
+	# Stop listening for attach stream events and stop controlling streams
+	#controller.remove_event_listener(callback)
+	#controller.reset_conf('__LeaveStreamsUnattached')
+	#controller.close()
