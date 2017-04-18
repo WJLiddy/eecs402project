@@ -13,8 +13,7 @@ from torutils import *
 SOCKS_PORT = 9050
 CONTROL_PORT = 9051
 FILE_URL = "https://landsat-pds.s3.amazonaws.com/L8/139/045/LC81390452014295LGN00/LC81390452014295LGN00_B8.TIF"
-DEBUG = True
-ANALYSIS_MACHINE_IP = "localhost"
+ANALYSIS_MACHINE_IP = "129.22.150.22"
 ANALYSIS_MACHINE_PORT = 44106
 
 def send_tor_circuit_ips(ips):

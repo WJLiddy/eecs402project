@@ -24,8 +24,30 @@ def set_circuit(controller):
 			continue;
 		break
 
-def attach_stream(stream):
-	if stream.status == 'NEW':
-		controller.attach_stream(stream.id, circuit_id)
+	circ = controller.get_circuit(circuit_id)
+
+# Little helper method to attach a stream to a controller. needed for fn callback
+	def attach_stream(stream):
+		if stream.status == 'NEW':
+			controller.attach_stream(stream.id, circuit_id)
+
+	print "--Path has %s nodes--" % (len(circ.path))
+
+	controller.add_event_listener(attach_stream, stem.control.EventType.STREAM)
+
+
+	node_ips = []
+
+	for node in circ.path:
+		fingerprint = node[0]
+		descriptor = controller.get_network_status(fingerprint, None)
+		if descriptor:
+			node_ips.append((descriptor.address))
+		else:
+			raise RuntimeError("FATAL ERROR: Unable to determine the address of some node")
+	return [node_ips, attach_stream]
+
+
+
 
 
