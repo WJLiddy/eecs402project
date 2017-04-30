@@ -46,11 +46,11 @@ while True:
 		socket.socket = no_proxy
 		send_tor_circuit_fingerprints(fingerprints)
 		socket.socket = socks.socksocket
-		print "Sent! Going to download the file for 10 seconds, then wait for 15 seconds."
+		print "Sent! Going to download the file for 60 seconds, then wait for 70 seconds."
 		print "downloading..."
-		download_file(FILE_URL,10)
+		download_file(FILE_URL,60)
 		print "done!"
-		sleep(15)
+		sleep(70)
 	finally:
 		# Stop listening for attach stream events and stop controlling streams
 		controller.remove_event_listener(callback)

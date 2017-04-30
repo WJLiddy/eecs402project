@@ -46,10 +46,10 @@ socket.socket = socks.socksocket
 
 
 while True:
-	fps = recv_tor_circuit_ips()
+	#fps = recv_tor_circuit_ips()
 
-	# Sample IPs: [u'38.229.70.53', u'91.134.139.215', u'204.85.191.30']
-	#fps = ['7ED90E2833EE38A75795BA9237B0A4560E51E1A0']
+	#Sample IPs: [u'38.229.70.53', u'91.134.139.215', u'204.85.191.30']
+	fps = ['7ED90E2833EE38A75795BA9237B0A4560E51E1A0']
 	
 	callback = None
 	# only test one node for now.
@@ -57,19 +57,23 @@ while True:
 		try:
 			print "Setting up analysis circuit..."
 			callback = set_analysis_circuit(controller,fp)
-			print "collecting RTTs for 20 seconds..."
+			print "collecting RTTs for 120 seconds..."
 
 			start_time =  calendar.timegm(time.gmtime())
-			while calendar.timegm(time.gmtime()) < start_time + 20:
+			rtt_file = open(str(start_time) + "_" + fp, 'w')
+
+			while calendar.timegm(time.gmtime()) < start_time + 120:
 				print "sending HTTP request..."
-				start_req =  time.clock()
+				start_req =   time.time() 
 				print requests.get(BOUNCE_URL, stream=True)
-				end_req = time.clock() - start_req 
+				end_req =  time.time()  - start_req 
 				print "RTT was " + str(end_req)
+				rtt_file.write(str(calendar.timegm(time.gmtime()) - start_time) + "," + str(end_req) + "\n")
 		finally:
 			# Stop listening for attach stream events and stop controlling streams
 			controller.remove_event_listener(callback)
 			controller.reset_conf('__LeaveStreamsUnattached')
+			rtt_file.close()
 
 controller.close()
 
