@@ -8,11 +8,11 @@ import calendar
 import time
 
 # Target file to download
-FILE_URL = "https://landsat-pds.s3.amazonaws.com/L8/139/045/LC81390452014295LGN00/LC81390452014295LGN00_B8.TIF"
+FILE_URL = "eecs402.pollack.tech/photo.tif"
 # fingerprint of our exit node.
-OUR_EXIT_NODE_FP =  "7AFDE8DA7A476FD6E412056BEAF83F21436973D2"
-# URL to bounce off of. Should be hosted on the exit node!
-BOUNCE_URL = "https://isitchristmas.com/"
+OUR_EXIT_NODE_FP =  "256F0C0086C71F1618BDF1C2B6D4CF4C5C3B0EA3"
+# URL to bounce off of. Should be hosted on the exit node, but this works, for now, without incurring too much lag
+BOUNCE_URL = "eecs402.pollack.tech"
 
 # returns a tor controller
 def get_tor_controller():
