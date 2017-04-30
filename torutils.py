@@ -94,7 +94,9 @@ def download_file(url,timeout = 0):
 	local_filename = url.split('/')[-1]
 	# Repeatedly download file until timeout
 	while True:
+		print "making request..."
 		r = requests.get(url, stream=True)
+		print "request made!"
 		kb_downloaded = 0
 		with open(local_filename, 'wb') as f:
 			for chunk in r.iter_content(chunk_size=1024): 
