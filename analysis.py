@@ -10,9 +10,12 @@ import calendar
 import time
 from torutils import *
 
+
+# ports to interface with tor.
 SOCKS_PORT = 9050
 CONTROL_PORT = 9051
-DEBUG = True
+
+# IP of the machine that is going to send us IPs- ignore every other IP.
 CLIENT_MACHINE_IP = '192.22.150.122'
 
 def recv_tor_circuit_ips():
@@ -34,31 +37,34 @@ def recv_tor_circuit_ips():
 		return data.split(',')
 
 
-#controller = get_tor_controller()
 
 # Reroute traffic through tor
-# socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_SOCKS5, addr="127.0.0.1", port=9050)
-# socket.socket = socks.socksocket
-
 controller = get_tor_controller()
-
-# Reroute traffic through tor
 socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_SOCKS5, addr="127.0.0.1", port=9050)
 socket.socket = socks.socksocket
 
+
+
 while True:
-	# ips = recv_tor_circuit_ips()
+	fps = recv_tor_circuit_ips()
 
 	# Sample IPs: [u'38.229.70.53', u'91.134.139.215', u'204.85.191.30']
-	fps = ['7ED90E2833EE38A75795BA9237B0A4560E51E1A0', '65590AFC73083D22A491CAFD235212F19629234A', '4198BD138E5E11B15B05C826B427148CED7D99FE']
+	#fps = ['7ED90E2833EE38A75795BA9237B0A4560E51E1A0']
+	
 	callback = None
-
 	for fp in fps:
 		try:
+			print "Setting up analysis circuit..."
 			callback = set_analysis_circuit(controller,fp)
-			print "pinging..."
-			download_file(FILE_URL)
-			print "done!"
+			print "collecting RTTs for 20 seconds..."
+
+			start_time =  calendar.timegm(time.gmtime())
+			while calendar.timegm(time.gmtime()) < start_time + 20:
+				print "sending HTTP request..."
+				start_req =  time.clock()
+				print requests.get(BOUNCE_URL, stream=True)
+				end_req = time.clock() - start_req 
+				print "RTT was " + str(end_req)
 		finally:
 			# Stop listening for attach stream events and stop controlling streams
 			controller.remove_event_listener(callback)
