@@ -46,10 +46,10 @@ socket.socket = socks.socksocket
 
 
 while True:
-	#fps = recv_tor_circuit_ips()
+	fps = recv_tor_circuit_ips()
 
 	#Sample IPs: [u'38.229.70.53', u'91.134.139.215', u'204.85.191.30']
-	fps = ['7ED90E2833EE38A75795BA9237B0A4560E51E1A0']
+	#fps = ['7ED90E2833EE38A75795BA9237B0A4560E51E1A0']
 	
 	callback = None
 	# only test one node for now.
