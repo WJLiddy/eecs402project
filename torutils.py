@@ -8,7 +8,7 @@ import calendar
 import time
 
 # Target file to download
-FILE_URL = "eecs402.pollack.tech/photo.tif"
+FILE_URL = "http://eecs402.pollack.tech/photo.tif"
 # fingerprint of our exit node.
 OUR_EXIT_NODE_FP =  "256F0C0086C71F1618BDF1C2B6D4CF4C5C3B0EA3"
 # URL to bounce off of. Should be hosted on the exit node, but this works, for now, without incurring too much lag
