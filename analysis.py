@@ -40,7 +40,7 @@ def recv_tor_circuit_ips():
 
 # Reroute traffic through tor
 controller = get_tor_controller()
-socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_SOCKS5, addr="127.0.0.1", port=9050)
+socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 9050)
 socket.socket = socks.socksocket
 
 

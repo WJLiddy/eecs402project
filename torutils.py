@@ -80,6 +80,7 @@ def set_circuit(controller):
 
 	for node in circ.path:
 		fingerprint = node[0]
+		node_fingerprints.append(fingerprint)
 		descriptor = controller.get_network_status(fingerprint, None)
 		if not descriptor:
 			raise RuntimeError("FATAL ERROR: Unable to determine the address of some node")
