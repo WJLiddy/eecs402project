@@ -104,7 +104,7 @@ def download_file(url,timeout = 0):
 					if(timeout != 0 and calendar.timegm(time.gmtime()) > start_time + timeout):
 						return
 					kb_downloaded += 1
-					if kb_downloaded % 500 == 0 and DEBUG:
+					if kb_downloaded % 500 == 0:
 						print "%s MB downloaded" % (kb_downloaded / 1000.0)
 		if(timeout == 0):
 			return

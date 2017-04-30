@@ -7,22 +7,19 @@ import stem
 from stem import CircStatus
 from stem.control import Controller
 from torutils import *
-import time
+from time import sleep
 
 SOCKS_PORT = 9050
 CONTROL_PORT = 9051
 
-ANALYSIS_NODE_IP = '129.22.150.52'
+ANALYSIS_NODE_IP = "129.22.150.52"
 ANALYSIS_NODE_PORT = 18089
 
 
 # Send the tor fingerprints to the server
 def send_tor_circuit_fingerprints(fps):
-	print "creating socket"
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	print "trying connection..."
 	s.connect((ANALYSIS_NODE_IP, ANALYSIS_NODE_PORT))
-	print "connected!"
 	for index, fp in enumerate(fps):
 		s.send(fp)
 		if(index != len(fp) - 1):
@@ -31,20 +28,24 @@ def send_tor_circuit_fingerprints(fps):
 
 
 # Reroute all traffic through tor
+no_proxy = socket.socket
 controller = get_tor_controller()
 socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_SOCKS5, addr="127.0.0.1", port=9050)
-socket.socket = socks.socksocket
+
 
 
 while True:
 	callback = None
 	try:
 		print "Setting up a new circuit..."
+		socket.socket = socks.socksocket
 		fingerprints, callback = set_circuit(controller)
 		print "Circuit set up with these fingerprints:"
 		print fingerprints
 		print "Now sending fingerprints for analysis..."
+		socket.socket = no_proxy
 		send_tor_circuit_fingerprints(fingerprints)
+		socket.socket = socks.socksocket
 		print "Sent! Going to download the file for 10 seconds, then wait for 15 seconds."
 		print "downloading..."
 		download_file(FILE_URL,10)
