@@ -28,7 +28,7 @@ def recv_tor_circuit_ips():
 		print "listening...."
 		conn, addr = s.accept()
 		print 'Connection address:', addr
-		if(addr != CLIENT_MACHINE_IP):
+		if(addr[0] != CLIENT_MACHINE_IP):
 			conn.close()
 			continue
 		data = conn.recv(BUFFER_SIZE)
@@ -52,7 +52,8 @@ while True:
 	#fps = ['7ED90E2833EE38A75795BA9237B0A4560E51E1A0']
 	
 	callback = None
-	for fp in fps:
+	# only test one node for now.
+	for fp in [fps[0]]:
 		try:
 			print "Setting up analysis circuit..."
 			callback = set_analysis_circuit(controller,fp)
