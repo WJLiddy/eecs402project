@@ -18,8 +18,11 @@ ANALYSIS_NODE_PORT = 18089
 
 # Send the tor fingerprints to the server
 def send_tor_circuit_fingerprints(fps):
+	print "creating socket"
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	print "trying connection..."
 	s.connect((ANALYSIS_NODE_IP, ANALYSIS_NODE_PORT))
+	print "connected!"
 	for index, fp in enumerate(fps):
 		s.send(fp)
 		if(index != len(fp) - 1):
