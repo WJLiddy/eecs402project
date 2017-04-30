@@ -16,7 +16,7 @@ SOCKS_PORT = 9050
 CONTROL_PORT = 9051
 
 # IP of the machine that is going to send us IPs- ignore every other IP.
-CLIENT_MACHINE_IP = '192.22.150.112'
+CLIENT_MACHINE_IP = '129.22.150.112'
 
 def recv_tor_circuit_ips():
 	print "waiting to recieve..."
