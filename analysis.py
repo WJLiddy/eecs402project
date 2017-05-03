@@ -50,7 +50,7 @@ while True:
 
 	#Sample IPs: [u'38.229.70.53', u'91.134.139.215', u'204.85.191.30']
 	#fps = ['7ED90E2833EE38A75795BA9237B0A4560E51E1A0']
-	
+
 	callback = None
 	# only test one node for now.
 	for fp in [fps[0]]:
@@ -64,11 +64,13 @@ while True:
 
 			while calendar.timegm(time.gmtime()) < start_time + 120:
 				print "sending HTTP request..."
-				start_req =   time.time() 
+				start_req =   time.time()
 				print requests.get(BOUNCE_URL, stream=True)
-				end_req =  time.time()  - start_req 
+				end_req =  time.time()  - start_req
 				print "RTT was " + str(end_req)
 				rtt_file.write(str(calendar.timegm(time.gmtime()) - start_time) + "," + str(end_req) + "\n")
+		except Exception,e:
+			print str(e)
 		finally:
 			# Stop listening for attach stream events and stop controlling streams
 			controller.remove_event_listener(callback)
