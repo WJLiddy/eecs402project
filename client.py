@@ -66,9 +66,9 @@ for node in target_nodes:
 			socket.socket = socks.socksocket
 			fingerprints, callback = set_circuit(controller,[node, random.choice(routing_nodes),random.choice(routing_nodes)])
 			print "Circuit set up. Now sending fingerprints for analysis..."
-			#socket.socket = no_proxy
-			#send_tor_circuit_fingerprints(fingerprints)
-			#socket.socket = socks.socksocket
+			socket.socket = no_proxy
+			send_tor_circuit_fingerprints(fingerprints)
+		#socket.socket = socks.socksocket
 			print "Sent. Going to download the file now."
 			download_file(FILE_URL,DOWNLOAD_TIME)
 			print "done."
