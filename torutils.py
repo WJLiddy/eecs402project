@@ -57,12 +57,12 @@ def set_analysis_circuit(controller,fp):
 
 # Pass in a controller, uses TOR to make a circuit.
 # Returns fingerprints it chose at well as the function callback needed by tor
-def set_circuit(controller):
+def set_circuit(controller, node_fps):
 
 	# Build a new circuit. Sometimes this fails and times out: that's ok, just try again.
 	while True:
 		try:
-			circuit_id = controller.new_circuit(await_build = True)
+			circuit_id = controller.new_circuit(path=node_fps, await_build = True)
 		except stem.CircuitExtensionFailed:
 			continue;
 		break
