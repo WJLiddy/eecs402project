@@ -10,6 +10,7 @@ import time
 
 # fingerprint of our exit node.
 OUR_EXIT_NODE_FP =  "0327EA239B04E82B31486667512E2378C8473E7C"
+HOP_FP = "F61B6E8014A86E849EBC462571F4EEC655BB763C"
 # URL to bounce off of. Should be hosted on the exit node, but this works, for now, without incurring too much lag
 BOUNCE_URL = "http://54.236.62.142/"
 
@@ -32,7 +33,7 @@ def set_analysis_circuit(controller,fp):
 	# Build a new circuit. Sometimes this fails and times out: that's ok, just try again.
 	while True:
 		try:
-			circuit_id = controller.new_circuit(path=[fp,OUR_EXIT_NODE_FP],await_build = True)
+			circuit_id = controller.new_circuit(path=[fp,HOP_FP,OUR_EXIT_NODE_FP],await_build = True)
 		except stem.CircuitExtensionFailed, e:
 			print str(e)
 			continue;
