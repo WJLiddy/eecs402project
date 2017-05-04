@@ -10,7 +10,6 @@
 
 import json
 import requests
-import dateutil.parser
 import os
 
 nodes = json.loads(requests.get('https://onionoo.torproject.org/details').text)
