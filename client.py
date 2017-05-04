@@ -4,6 +4,7 @@ import socks
 import socket
 import requests
 import stem
+import signal
 from stem import CircStatus
 from stem.control import Controller
 from torutils import *
@@ -18,6 +19,8 @@ ANALYSIS_NODE_IP = "54.236.62.142"
 ANALYSIS_NODE_PORT = 18089
 
 RUNS = 2
+DOWNLOAD_TIME = 2
+BUFFER_TIME = 1
 
 # Send the tor fingerprints to the server
 def send_tor_circuit_fingerprints(fps):
@@ -47,27 +50,33 @@ with open(str(sys.argv[2]),'r') as f:
 	output = f.read()
 routing_nodes = output.split(',')
 
-for node in target_nodes:
-	print node
+
+def signal_handler(signum, frame):
+	raise Exception("Creating circuit or request timed out")
 
 for node in target_nodes:
 	for run in range(RUNS):
 		callback = None
 		try:
+			signal.signal(signal.SIGALRM, signal_handler)
+			# If we haven't finished by now something has gone wrong.
+			# It should not take more than 10 s to set up circuit.
+			signal.alarm(10 + (2*DOWNLOAD_TIME + BUFFER_TIME))
+
 			print "Setting up a new circuit..."
 			socket.socket = socks.socksocket
 			fingerprints, callback = set_circuit(controller,[node, random.choice(routing_nodes),random.choice(routing_nodes)])
-			print "Circuit set up with these fingerprints:"
-			print fingerprints
-			print "Now sending fingerprints for analysis..."
+			print "Circuit set up. Now sending fingerprints for analysis..."
 			#socket.socket = no_proxy
 			#send_tor_circuit_fingerprints(fingerprints)
 			#socket.socket = socks.socksocket
-			print "Sent! Going to download the file for 60 seconds, then wait for 70 seconds."
-			print "downloading..."
-			download_file(FILE_URL,2)
-			print "done!"
-			sleep(2)
+			print "Sent. Going to download the file now."
+			download_file(FILE_URL,DOWNLOAD_TIME)
+			print "done."
+			sleep(DOWNLOAD_TIME + BUFFER_TIME)
+		except Exception,e:
+			print "This run was aborted, reason:"
+			print str(e)
 		finally:
 			# Stop listening for attach stream events and stop controlling streams
 			controller.remove_event_listener(callback)
