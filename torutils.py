@@ -9,8 +9,8 @@ import time
 
 
 # fingerprint of our exit node.
-OUR_EXIT_NODE_FP =  "0327EA239B04E82B31486667512E2378C8473E7C"
-HOP_FP = "F61B6E8014A86E849EBC462571F4EEC655BB763C"
+OUR_EXIT_NODE_FP =  "2CA4B2F36C2DDECFCB0B5A0D3300ED30E68E2D62"
+HOP_FP = "3DC5B80B0FBB7F88B709CB4C388D9CE8D21EF3DC"
 # URL to bounce off of. Should be hosted on the exit node, but this works, for now, without incurring too much lag
 BOUNCE_URL = "http://54.236.62.142/"
 
