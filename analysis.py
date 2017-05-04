@@ -43,7 +43,9 @@ controller = get_tor_controller()
 socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", 9050)
 socket.socket = socks.socksocket
 
-
+# Make folder for analysis
+if not os.path.exists("results"):
+	os.makedirs("results")
 
 while True:
 	fps = recv_tor_circuit_ips()
@@ -55,14 +57,20 @@ while True:
 	# only test one node for now.
 	for fp in [fps[0]]:
 		try:
+
+			# Make folder for analysis
+			if not os.path.exists("results/"+fp):
+				os.makedirs("results/"+fp)
+
 			print "Setting up analysis circuit..."
 			callback = set_analysis_circuit(controller,fp)
-			print "collecting RTTs for 120 seconds..."
+			print "collecting RTTs for " + str(2*DOWNLOAD_TIME) + " seconds..."
+
 
 			start_time =  calendar.timegm(time.gmtime())
-			rtt_file = open(str(start_time) + "_" + fp, 'w')
+			rtt_file = open("results/"+fp+"/"+str(start_time) + "_" + fp, 'w')
 
-			while calendar.timegm(time.gmtime()) < start_time + 120:
+			while calendar.timegm(time.gmtime()) < start_time + (2*DOWNLOAD_TIME):
 				print "sending HTTP request..."
 				start_req =   time.time()
 				print requests.get(BOUNCE_URL, stream=True)
@@ -78,16 +86,3 @@ while True:
 			rtt_file.close()
 
 controller.close()
-
-	#ry:
-	#ips, callback = set_circuit(controller)
-	#print ips
-	#send_tor_circuit_ips(ips)
-	#print "trying to download.."
-	#download_file(FILE_URL,1)
-	#print "done!"
-	#finally:
-	# Stop listening for attach stream events and stop controlling streams
-	#controller.remove_event_listener(callback)
-	#controller.reset_conf('__LeaveStreamsUnattached')
-	#controller.close()

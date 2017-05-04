@@ -19,8 +19,7 @@ ANALYSIS_NODE_IP = "54.236.62.142"
 ANALYSIS_NODE_PORT = 18089
 
 RUNS = 2
-DOWNLOAD_TIME = 2
-BUFFER_TIME = 1
+
 
 # Send the tor fingerprints to the server
 def send_tor_circuit_fingerprints(fps):
