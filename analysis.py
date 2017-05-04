@@ -69,7 +69,7 @@ while True:
 
 
 			start_time =  calendar.timegm(time.gmtime())
-			rtt_file = open("results/"+fp+"/"+str(start_time) + "_" + fp, 'w')
+			rtt_file = open("results/"+fp+"/"+str(start_time), 'w')
 
 			while calendar.timegm(time.gmtime()) < start_time + (2*DOWNLOAD_TIME):
 				print "sending HTTP request..."
