@@ -9,12 +9,12 @@ import time
 
 
 # fingerprint of our exit node.
-OUR_EXIT_NODE_FP =  "256F0C0086C71F1618BDF1C2B6D4CF4C5C3B0EA3"
+OUR_EXIT_NODE_FP =  "0327EA239B04E82B31486667512E2378C8473E7C"
 # URL to bounce off of. Should be hosted on the exit node, but this works, for now, without incurring too much lag
-BOUNCE_URL = "eecs402.pollack.tech"
+BOUNCE_URL = "http://54.236.62.142/"
 
-DOWNLOAD_TIME = 2
-BUFFER_TIME = 1
+DOWNLOAD_TIME = 30
+BUFFER_TIME = 5
 
 # returns a tor controller
 def get_tor_controller():

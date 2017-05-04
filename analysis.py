@@ -9,6 +9,7 @@ from stem.control import Controller
 import calendar
 import time
 from torutils import *
+import os
 
 
 # ports to interface with tor.
