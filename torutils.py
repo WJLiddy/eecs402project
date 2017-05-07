@@ -8,14 +8,18 @@ import calendar
 import time
 
 
-# fingerprint of our exit node.
-OUR_EXIT_NODE_FP =  "2CA4B2F36C2DDECFCB0B5A0D3300ED30E68E2D62"
-HOP_FP = "3DC5B80B0FBB7F88B709CB4C388D9CE8D21EF3DC"
-# URL to bounce off of. Should be hosted on the exit node, but this works, for now, without incurring too much lag
+
+CLIENT_FILE_URL = "http://eecs402.pollack.tech/photo.tif"
+ANALYSIS_FILE_URL =  "http://54.236.62.142/photo.tif"
+
+ANALYSIS_EXIT_NODE_FP =  "A1FC727A0F470C0EFC18B143779A0BD1B2D7677D"
+ANALYSIS_HOP_FP = "84263C336983E09D63043F7416F957D6BE05DFE8"
 BOUNCE_URL = "http://54.236.62.142/"
 
-DOWNLOAD_TIME = 30
-BUFFER_TIME = 5
+# Download for 70, wait for 70
+DOWNLOAD_TIME = 70
+
+
 
 # returns a tor controller
 def get_tor_controller():
@@ -33,7 +37,7 @@ def set_analysis_circuit(controller,fp):
 	# Build a new circuit. Sometimes this fails and times out: that's ok, just try again.
 	while True:
 		try:
-			circuit_id = controller.new_circuit(path=[fp,HOP_FP,OUR_EXIT_NODE_FP],await_build = True)
+			circuit_id = controller.new_circuit(path=[fp,ANALYSIS_HOP_FP,ANALYSIS_HOP_EXIT_NODE_FP],await_build = True)
 		except stem.CircuitExtensionFailed, e:
 			print str(e)
 			continue;
@@ -91,8 +95,10 @@ def set_circuit(controller, node_fps):
 
 
 # Helper function to download a file, until timeout. 
-#If timeout is set to zero, then will finish as soon as file finished downloading.
+# If timeout is set to zero, then will finish as soon as file finished downloading.\
+# Returns total kb downloaded
 def download_file(url,timeout = 0):
+	total_kb_downloaded = 0
 	start_time =  calendar.timegm(time.gmtime())
 	local_filename = url.split('/')[-1]
 	# Repeatedly download file until timeout
@@ -107,12 +113,13 @@ def download_file(url,timeout = 0):
 					f.write(chunk)
 					# return if time expired (unless timeout is zero)
 					if(timeout != 0 and calendar.timegm(time.gmtime()) > start_time + timeout):
-						return
+						return total_kb_downloaded
 					kb_downloaded += 1
+					total_kb_downloaded += 1
 					if kb_downloaded % 500 == 0:
 						print "%s MB downloaded" % (kb_downloaded / 1000.0)
 		if(timeout == 0):
-			return
+			return total_kb_downloaded
 
 
 

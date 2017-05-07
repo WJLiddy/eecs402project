@@ -70,14 +70,38 @@ while True:
 
 			start_time =  calendar.timegm(time.gmtime())
 			rtt_file = open("results/"+fp+"/"+str(start_time), 'w')
+			bw_file = open("results/"+fp+"/"+str(start_time), 'w')
 
-			while calendar.timegm(time.gmtime()) < start_time + (2*DOWNLOAD_TIME):
+			# sleep for 10: Let anaylsis reach full bandwidth. 
+			sleep(10)
+
+			# Measure RTT for 30
+			while calendar.timegm(time.gmtime()) < start_time + (40):
 				print "sending HTTP request..."
 				start_req =   time.time()
 				print requests.get(BOUNCE_URL, stream=True)
 				end_req =  time.time()  - start_req
 				print "RTT was " + str(end_req)
 				rtt_file.write(str(calendar.timegm(time.gmtime()) - start_time) + "," + str(end_req) + "\n")
+
+			# Measure Bandwidth for 30
+			bw = download_file(url,timeout = 30)
+			bw_file.write(str(bw)+"\n")
+
+			# Measure RTT for 30
+			while calendar.timegm(time.gmtime()) < start_time + (40):
+				print "sending HTTP request..."
+				start_req =   time.time()
+				print requests.get(BOUNCE_URL, stream=True)
+				end_req =  time.time()  - start_req
+				print "RTT was " + str(end_req)
+				rtt_file.write(str(calendar.timegm(time.gmtime()) - start_time) + "," + str(end_req) + "\n")
+
+
+			# Measure Bandwidth for 30
+			bw = download_file(url,timeout = 30)
+			bw_file.write(str(bw)+"\n")
+
 		except Exception,e:
 			print str(e)
 		finally:

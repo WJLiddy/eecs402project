@@ -28,14 +28,14 @@ for node in  nodes["relays"]:
 
 
 
-	node_scores += [[node["fingerprint"],node["observed_bandwidth"]]]
+	node_scores += [[node["fingerprint"],node["consensus_weight"]]]
 
 print str(len(node_scores)) + " nodes were online"
 
 node_scores = sorted(node_scores, key=lambda n: n[1])
 
-save = open("fast_nodes", 'w')
-for node in node_scores[len(node_scores)-11 : len(node_scores) - 1]:
+save = open("old_nodes", 'w')
+for node in node_scores[len(node_scores)-51 : len(node_scores) - 1]:
 	save.write(node[0])
 	save.write(",")
 save.seek(-1, os.SEEK_END)
@@ -44,8 +44,8 @@ save.close()
 
 
 
-save = open("slow_nodes", 'w')
-for node in node_scores[0:10]:
+save = open("new_nodes", 'w')
+for node in node_scores[0:50]:
 	save.write(node[0])
 	save.write(",")
 save.seek(-1, os.SEEK_END)
