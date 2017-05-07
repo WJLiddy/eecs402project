@@ -73,7 +73,7 @@ while True:
 			bw_file = open("results/"+fp+"/"+str(start_time), 'w')
 
 			# sleep for 10: Let anaylsis reach full bandwidth. 
-			sleep(10)
+			time.sleep(10)
 
 			# Measure RTT for 30
 			while calendar.timegm(time.gmtime()) < start_time + (40):
@@ -85,7 +85,7 @@ while True:
 				rtt_file.write(str(calendar.timegm(time.gmtime()) - start_time) + "," + str(end_req) + "\n")
 
 			# Measure Bandwidth for 30
-			bw = download_file(url,timeout = 30)
+			bw = download_file(ANALYSIS_FILE_URL,timeout = 30)
 			bw_file.write(str(bw)+"\n")
 
 			# Measure RTT for 30
@@ -99,7 +99,7 @@ while True:
 
 
 			# Measure Bandwidth for 30
-			bw = download_file(url,timeout = 30)
+			bw = download_file(ANALYSIS_FILE_URL,timeout = 30)
 			bw_file.write(str(bw)+"\n")
 
 		except Exception,e:
@@ -109,5 +109,6 @@ while True:
 			controller.remove_event_listener(callback)
 			controller.reset_conf('__LeaveStreamsUnattached')
 			rtt_file.close()
+			bw_file.close()
 
 controller.close()
