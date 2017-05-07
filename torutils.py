@@ -37,7 +37,7 @@ def set_analysis_circuit(controller,fp):
 	# Build a new circuit. Sometimes this fails and times out: that's ok, just try again.
 	while True:
 		try:
-			circuit_id = controller.new_circuit(path=[fp,ANALYSIS_HOP_FP,ANALYSIS_HOP_EXIT_NODE_FP],await_build = True)
+			circuit_id = controller.new_circuit(path=[fp,ANALYSIS_HOP_FP,ANALYSIS_EXIT_NODE_FP],await_build = True)
 		except stem.CircuitExtensionFailed, e:
 			print str(e)
 			continue;
